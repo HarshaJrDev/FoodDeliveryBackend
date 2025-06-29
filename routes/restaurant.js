@@ -1,12 +1,6 @@
 import express from "express";
-import {
-  getAllRestaurants,
-  getRestaurant,
-  createRestaurant,
-  updateRestaurant,
-  deleteRestaurant,
-  getRestaurantWithFoods
-} from "../controllers/restaurantController.js";
+import { createRestaurant, deleteRestaurant, getAllRestaurants, getRestaurant, getRestaurantWithFoods, updateRestaurant } from "../Controllers/restaurantController";
+
 
 const router = express.Router();
 

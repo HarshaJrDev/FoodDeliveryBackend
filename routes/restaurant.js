@@ -8,7 +8,7 @@ import {
   updateRestaurant,
   getMyRestaurant
 } from "../Controllers/restaurantController.js";
-import  {authenticate}  from "../Middleware/authenticate.js";
+import  {authenticate}  from "../middleware/authenticate.js";
 
 
 const router = express.Router();

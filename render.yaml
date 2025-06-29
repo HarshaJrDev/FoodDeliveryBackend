@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: DeliveryApp
+    env: node
+    plan: free
+    branch: dev
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true

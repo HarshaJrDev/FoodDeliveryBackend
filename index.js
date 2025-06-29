@@ -15,8 +15,8 @@ import restaurantfood from "./routes/food.js"
 
 
 
-import chatSocket from "./socket.io/chatSocket.js";
-import locationSocket from "./socket.io/locationSocket.js";
+import chatSocket from "./socket/chatSocket.js";
+import locationSocket from "./socket/locationSocket.js";
 
 dotenv.config();
 

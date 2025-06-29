@@ -1,7 +1,7 @@
 import Restaurant from "../Schema/Restaurant.js";
 import FoodItem from "../Schema/FoodItem.js";
 
-// Get all restaurants
+
 export const getAllRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find().sort({ _id: 1 });

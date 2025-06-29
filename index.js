@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const http = require("http");
 const { Server: SocketIO } = require("socket.io");
 
-const authRoute = require("./routes/auth");
+const authRoute = require("./routes/auth.cjs");
 const restaurantRoute = require("./routes/restaurant");
 const driverRoute = require("./routes/driver");
 const orderRoute = require("./routes/order");

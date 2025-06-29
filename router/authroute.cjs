@@ -1,6 +1,6 @@
 import express from "express";
 import { validationResult } from "express-validator";
-import { authController } from "../controllers/authController";
+import { authController } from "../controllers/authController.cjs";
 import { loginController } from '../Controllers/loginController';
 
 const router = express.Router();

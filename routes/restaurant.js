@@ -8,7 +8,7 @@ import {
   updateRestaurant,
   getMyRestaurant
 } from "../Controllers/restaurantController.js";
-import { authenticate } from "../Middleware/authenticate.js";
+import  {authenticate}  from "../Middleware/authenticate.js";
 
 
 const router = express.Router();
@@ -17,8 +17,6 @@ const router = express.Router();
 router.get("/", getAllRestaurants);
 router.get("/:id", getRestaurant);
 router.get("/:id/full", getRestaurantWithFoods);
-
-
 router.post("/", authenticate, createRestaurant);
 router.put("/:id", authenticate, updateRestaurant);
 router.delete("/:id", authenticate, deleteRestaurant);

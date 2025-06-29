@@ -22,7 +22,7 @@ const RestaurantSchema = new mongoose.Schema(
           default: "Point",
         },
         coordinates: {
-          type: [Number], // [lng, lat]
+          type: [Number],
           index: "2dsphere",
           required: true,
         },
@@ -52,7 +52,7 @@ const RestaurantSchema = new mongoose.Schema(
   }
 );
 
-// Virtuals
+
 RestaurantSchema.virtual("orders", {
   ref: "Order",
   localField: "_id",

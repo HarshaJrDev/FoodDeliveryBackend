@@ -1,8 +1,9 @@
+import FoodItem from "../Schema/FoodItem.js";
 import Order from "../Schema/Order.js";
 import Restaurant from "../Schema/Restaurant.js";
 import User from "../Schema/UserModel.js";
 
-// 🔁 Simulated route generator
+
 const getRouteData = async (from, to) => {
   return {
     distance: 4200, // meters
@@ -11,7 +12,7 @@ const getRouteData = async (from, to) => {
   };
 };
 
-// 🔍 Get all orders
+
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
@@ -27,7 +28,7 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-// 🔍 Get one order
+
 export const getOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
@@ -50,42 +51,68 @@ export const getOrder = async (req, res) => {
 
 export const createOrder = async (req, res) => {
   try {
-    const { restaurantId, customerName, customerPhone, deliveryAddress, deliveryAddressLocation, items } = req.body;
+    const {
+      restaurantId,
+      customerName,
+      customerPhone,
+      deliveryAddress,
+      deliveryAddressLocation,
+      items
+    } = req.body;
 
     // Validate required fields
-    if (!restaurantId || !customerName || !customerPhone || !deliveryAddress || !deliveryAddressLocation || !items?.length) {
-      console.error("❌ Missing required fields in request body", { restaurantId, customerName, customerPhone, deliveryAddress, deliveryAddressLocation, items });
-      return res.status(400).json({ error: "All required fields (restaurantId, customerName, customerPhone, deliveryAddress, deliveryAddressLocation, items) must be provided" });
+    if (
+      !restaurantId ||
+      !customerName ||
+      !customerPhone ||
+      !deliveryAddress ||
+      !deliveryAddressLocation ||
+      !items?.length
+    ) {
+      console.error("❌ Missing required fields", req.body);
+      return res.status(400).json({
+        error:
+          "All required fields (restaurantId, customerName, customerPhone, deliveryAddress, deliveryAddressLocation, items) must be provided"
+      });
     }
 
-    // Validate restaurantId
+    // Validate restaurant
     const restaurant = await Restaurant.findById(restaurantId);
     if (!restaurant) {
       console.error(`❌ Invalid restaurant ID: ${restaurantId}`);
-      return res.status(400).json({ error: `Invalid restaurant ID: ${restaurantId}` });
+      return res.status(400).json({ error: `Invalid restaurant ID` });
     }
 
-    // Validate deliveryAddressLocation
-    if (!deliveryAddressLocation?.lat || !deliveryAddressLocation?.lng) {
-      console.error(`❌ Invalid delivery address: ${JSON.stringify(deliveryAddressLocation)}`);
-      return res.status(400).json({ error: "Invalid delivery address location (lat and lng required)" });
+    // Validate location
+    if (
+      !deliveryAddressLocation?.lat ||
+      !deliveryAddressLocation?.lng
+    ) {
+      console.error(`❌ Invalid delivery location`, deliveryAddressLocation);
+      return res.status(400).json({
+        error: "Invalid deliveryAddressLocation (lat and lng required)"
+      });
     }
 
-    // Validate items
+    // Validate food items
     for (const item of items) {
       if (!item.foodId || !item.quantity || item.quantity < 1) {
-        console.error(`❌ Invalid item: ${JSON.stringify(item)}`);
-        return res.status(400).json({ error: "Each item must have a valid foodId and quantity >= 1" });
+        console.error(`❌ Invalid item`, item);
+        return res.status(400).json({
+          error: "Each item must have valid foodId and quantity >= 1"
+        });
       }
-      const foodItem = await mongoose.model("FoodItem").findById(item.foodId);
+
+      const foodItem = await FoodItem.findById(item.foodId);
       if (!foodItem) {
-        console.error(`❌ Invalid foodId: ${item.foodId}`);
+        console.error(`❌ Food item not found: ${item.foodId}`);
         return res.status(400).json({ error: `Invalid foodId: ${item.foodId}` });
       }
     }
 
     const order = new Order(req.body);
     await order.save();
+
     console.log("✅ Order created:", order._id);
     res.status(201).json(order);
   } catch (err) {

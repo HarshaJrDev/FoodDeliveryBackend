@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
-import connectDB from "./utils/MongoDatabase.js";
+import connectDB from "./utils/mongoDatabase.js";
 
 
 import authRoute from "./routes/auth.js";

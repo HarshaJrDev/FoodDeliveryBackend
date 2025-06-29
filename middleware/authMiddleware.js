@@ -1,6 +1,7 @@
 // File: /middleware/authMiddleware.js
 import jwt from "jsonwebtoken";
-import User from "../Schema/UserModel.js";
+import User from "../schema/userModel";
+
 
 const protect = async (req, res, next) => {
   let token;

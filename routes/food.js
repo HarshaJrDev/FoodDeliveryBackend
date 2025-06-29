@@ -5,7 +5,7 @@ import {
   createFoodItem,
   updateFoodItem,
   deleteFoodItem,
-} from '../controllers/foodController.js';
+} from '../controllers/foodcontroller.js';
 
 const router = express.Router({ mergeParams: true });
 

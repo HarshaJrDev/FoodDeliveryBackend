@@ -7,8 +7,8 @@ import {
   getOrder,
   updateOrder,
   deleteOrder
-} from "../controllers/orderController.js";
-import { validateCreateOrder, validateUpdateOrderStatus } from "../middleware/orderValidator.js";
+} from "../controllers/ordercontroller.js";
+import { validateCreateOrder, validateUpdateOrderStatus } from "../middleware/ordervalidator.js";
 
 
 

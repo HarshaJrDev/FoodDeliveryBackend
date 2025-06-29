@@ -3,7 +3,7 @@ services:
     name: DeliveryApp
     env: node
     plan: free
-    branch: dev
+    branch: main
     buildCommand: npm install
     startCommand: npm start
     autoDeploy: true

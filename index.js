@@ -7,11 +7,11 @@ import { Server as SocketIO } from "socket.io";
 import connectDB from "./utils/MongoDatabase.js";
 
 
-import authRoute from "./Routes/auth.js";
-import restaurantRoute from "./Routes/restaurant.js";
-import driverRoute from "./Routes/driver.js";
-import orderRoute from "./Routes/order.js";
-import restaurantfood from "./Routes/food.js"
+import authRoute from "./routes/auth.js";
+import restaurantRoute from "./routes/restaurant.js";
+import driverRoute from "./routes/driver.js";
+import orderRoute from "./routes/order.js";
+import restaurantfood from "./routes/food.js"
 
 
 

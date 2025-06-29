@@ -6,7 +6,7 @@ import http from "http";
 import { Server as SocketIO } from "socket.io";
 
 
-import  connectDB  from './utils/mongodatabase.js';
+
 import authRoute from "./routes/auth.js";
 import restaurantRoute from "./routes/restaurant.js";
 import driverRoute from "./routes/driver.js";
@@ -17,6 +17,7 @@ import restaurantfood from "./routes/food.js"
 
 import chatSocket from "./socket/chatSocket.js";
 import locationSocket from "./socket/locationSocket.js";
+import mongodatabase from "./utils/MongoDatabase.js";
 
 dotenv.config();
 
@@ -50,9 +51,11 @@ app.get("/", (req, res) => {
 });
 
 
+
+
 const startServer = async () => {
   try {
-    await connectDB()
+ mongodatabase()
     const PORT = process.env.PORT || 3030;
     server.listen(PORT, () => {
       console.log(` Server running at http://localhost:${PORT}`);

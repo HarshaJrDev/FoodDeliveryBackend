@@ -1,12 +1,12 @@
 import express from "express";
+import { registerUser, loginUser } from "../Controllers/authController.js";
+import { validateLogin, validateRegister } from "../middleware/validation.js";
 
-import protect from "../middleware/authMiddleware.js"; // if you're using JWT middleware
-import { getMe, loginUser, registerUser } from "../Controllers/authController.js";
+
 
 const router = express.Router();
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.get("/me", protect, getMe); // Only if using auth middleware
+router.post("/register", validateRegister, registerUser);
+router.post("/login", validateLogin, loginUser);
 
 export default router;

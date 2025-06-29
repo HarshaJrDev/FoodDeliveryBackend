@@ -1,14 +1,29 @@
 import express from "express";
-import { createRestaurant, deleteRestaurant, getAllRestaurants, getRestaurant, getRestaurantWithFoods, updateRestaurant } from "../Controllers/restaurantController.js";
+import {
+  createRestaurant,
+  deleteRestaurant,
+  getAllRestaurants,
+  getRestaurant,
+  getRestaurantWithFoods,
+  updateRestaurant,
+  getMyRestaurant
+} from "../Controllers/restaurantController.js";
+import { authenticate } from "../Middleware/authenticate.js";
 
 
 const router = express.Router();
 
+1
 router.get("/", getAllRestaurants);
 router.get("/:id", getRestaurant);
-router.post("/", createRestaurant);
-router.put("/:id", updateRestaurant);
-router.delete("/:id", deleteRestaurant);
-router.get('/:id/full', getRestaurantWithFoods);
+router.get("/:id/full", getRestaurantWithFoods);
+
+
+router.post("/", authenticate, createRestaurant);
+router.put("/:id", authenticate, updateRestaurant);
+router.delete("/:id", authenticate, deleteRestaurant);
+
+
+router.get("/me/my-restaurant", authenticate, getMyRestaurant);
 
 export default router;

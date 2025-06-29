@@ -1,6 +1,6 @@
 import FoodItem from "../Schema/FoodItem.js";
 
-// Get all food items for a specific restaurant
+
 export const getAllFoodsByRestaurant = async (req, res) => {
   try {
     const foodItems = await FoodItem.find({ restaurantId: req.params.restaurantId });

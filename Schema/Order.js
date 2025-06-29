@@ -1,42 +1,84 @@
-// File: Schema/OrderModel.js
 import mongoose from "mongoose";
 
-const OrderSchema = new mongoose.Schema({
-  customerName: String,
-  customerPhone: String,
-  deliveryAddress: String,
-
-  deliveryAddressLocation: {
-  lat: Number,
-  lng: Number
-},
-
-  
-  restaurantId: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' },
-  items: [
-    {
-      foodId: { type: mongoose.Schema.Types.ObjectId, ref: 'FoodItem' },
-      quantity: Number
-    }
-  ],
-
-  driverId: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver', default: null },
-  status: {
-    type: String,
-    enum: ['Placed', 'Preparing', 'Assigned', 'OutForDelivery', 'Delivered'],
-    default: 'Placed'
+const OrderSchema = new mongoose.Schema(
+  {
+    customerName: {
+      type: String,
+      required: true,
+    },
+    customerPhone: {
+      type: String,
+      required: true,
+    },
+    deliveryAddress: {
+      type: String,
+      required: true,
+    },
+    deliveryAddressLocation: {
+      lat: {
+        type: Number,
+        required: true,
+      },
+      lng: {
+        type: Number,
+        required: true,
+      },
+    },
+    restaurantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+      required: true, // Prevent null restaurantId
+    },
+    items: [
+      {
+        foodId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "FoodItem",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+      },
+    ],
+    driverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    status: {
+      type: String,
+      enum: ["Placed", "Preparing", "Assigned", "OutForDelivery", "Delivered"],
+      default: "Placed",
+    },
+    routePolyline: String,
+    distance: Number,
+    eta: Number,
+    chat: [
+      {
+        senderId: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+        },
+        message: {
+          type: String,
+          required: true,
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
-  routePolyline: String,
-  distance: Number,
-  eta: Number,
-  chat: [
-    {
-      senderId: mongoose.Schema.Types.ObjectId,
-      message: String,
-      timestamp: { type: Date, default: Date.now }
-    }
-  ]
-}, { timestamps: true });
+  { timestamps: true }
+);
+
+// Add index for faster queries
+OrderSchema.index({ restaurantId: 1 });
+OrderSchema.index({ driverId: 1 });
 
 const Order = mongoose.model("Order", OrderSchema);
 export default Order;

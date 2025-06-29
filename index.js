@@ -11,7 +11,7 @@ import authRoute from "./routes/auth.js";
 import restaurantRoute from "./routes/restaurant.js";
 import driverRoute from "./routes/driver.js";
 import orderRoute from "./routes/order.js";
-import restaurantRoutes from "./routes/food.js"
+import restaurantfood from "./routes/food.js"
 
 
 // Sockets
@@ -21,7 +21,7 @@ import locationSocket from "./Socket.io/locationSocket.js";
 dotenv.config(); // Load .env variables
 
 const app = express();
-const server = http.createServer(app); // Needed for socket.io
+const server = http.createServer(app); 
 const io = new SocketIO(server, {
   cors: {
     origin: "*", // You can replace with frontend domain
@@ -38,8 +38,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/restaurants", restaurantRoute);
 app.use("/api/drivers", driverRoute);
 app.use("/api/orders", orderRoute);
-app.use('/api/restaurants', restaurantRoutes);
-app.use('/api/restaurants/:restaurantId/foods', restaurantRoutes);
+app.use('/api/restaurants/:restaurantId/foods', restaurantfood);
 
 // Sockets
 chatSocket(io);
@@ -56,10 +55,10 @@ const startServer = async () => {
     await connectDB();
     const PORT = process.env.PORT || 3030;
     server.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
+      console.log(` Server running at http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("❌ Failed to start server:", error);
+    console.error(" Failed to start server:", error);
     process.exit(1);
   }
 };

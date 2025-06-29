@@ -1,23 +1,25 @@
 import express from "express";
 import {
+  createOrder,
+  updateOrderStatus,
+  assignDriver,
   getAllOrders,
   getOrder,
-  createOrder,
   updateOrder,
-  deleteOrder,
-  assignDriver,
-  updateOrderStatus
+  deleteOrder
 } from "../controllers/orderController.js";
-import protect from "../middleware/authMiddleware.js";
+import { validateCreateOrder, validateUpdateOrderStatus } from "../middleware/orderValidator.js";
+
+
 
 const router = express.Router();
 
 router.get("/", getAllOrders);
 router.get("/:id", getOrder);
-router.post("/", createOrder);
+router.post("/", validateCreateOrder, createOrder);
 router.put("/:id", updateOrder);
 router.delete("/:id", deleteOrder);
-router.put("/:id/assign-driver", protect, assignDriver);
-router.patch("/:id/status", protect, updateOrderStatus);
+router.put("/:id/assign", assignDriver);
+router.put("/:id/status", validateUpdateOrderStatus, updateOrderStatus);
 
 export default router;

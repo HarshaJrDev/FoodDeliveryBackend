@@ -6,7 +6,7 @@ import http from "http";
 import { Server as SocketIO } from "socket.io";
 
 
-import { connectDB } from './utils/mongodatabase.js';
+import  connectDB  from './utils/mongodatabase.js';
 import authRoute from "./routes/auth.js";
 import restaurantRoute from "./routes/restaurant.js";
 import driverRoute from "./routes/driver.js";

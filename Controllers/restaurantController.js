@@ -1,8 +1,7 @@
-import Restaurant from "../schema/restaurant.js";
-import FoodItem from "../schema/foodItem.js";
+const Restaurant = require("../schema/restaurant.js");
+const FoodItem = require("../schema/foodItem.js");
 
-// ✅ Get all restaurants with foodItems, orders, and owner details
-export const getAllRestaurants = async (req, res) => {
+const getAllRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find()
       .sort({ _id: 1 })
@@ -16,8 +15,7 @@ export const getAllRestaurants = async (req, res) => {
   }
 };
 
-// ✅ Get a single restaurant by ID with full details
-export const getRestaurant = async (req, res) => {
+const getRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.id)
       .populate("foodItems")
@@ -34,8 +32,7 @@ export const getRestaurant = async (req, res) => {
   }
 };
 
-// ✅ Create a new restaurant (only for users with role 'restaurant')
-export const createRestaurant = async (req, res) => {
+const createRestaurant = async (req, res) => {
   try {
     if (req.user.role !== "restaurant") {
       return res.status(403).json({ success: false, message: "Only restaurant users can create a restaurant" });
@@ -60,8 +57,7 @@ export const createRestaurant = async (req, res) => {
   }
 };
 
-// ✅ Update restaurant info
-export const updateRestaurant = async (req, res) => {
+const updateRestaurant = async (req, res) => {
   try {
     const updated = await Restaurant.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updated) {
@@ -73,8 +69,7 @@ export const updateRestaurant = async (req, res) => {
   }
 };
 
-// ✅ Delete a restaurant
-export const deleteRestaurant = async (req, res) => {
+const deleteRestaurant = async (req, res) => {
   try {
     const deleted = await Restaurant.findByIdAndDelete(req.params.id);
     if (!deleted) {
@@ -86,8 +81,7 @@ export const deleteRestaurant = async (req, res) => {
   }
 };
 
-// ✅ Get a restaurant and its food items (manual approach)
-export const getRestaurantWithFoods = async (req, res) => {
+const getRestaurantWithFoods = async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.id);
     if (!restaurant) {
@@ -109,7 +103,7 @@ export const getRestaurantWithFoods = async (req, res) => {
   }
 };
 
-export const getMyRestaurant = async (req, res) => {
+const getMyRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.findOne({ userId: req.user._id })
       .populate("foodItems")
@@ -123,4 +117,15 @@ export const getMyRestaurant = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to retrieve your restaurant" });
   }
+};
+
+// CommonJS Export
+module.exports = {
+  getAllRestaurants,
+  getRestaurant,
+  createRestaurant,
+  updateRestaurant,
+  deleteRestaurant,
+  getRestaurantWithFoods,
+  getMyRestaurant,
 };

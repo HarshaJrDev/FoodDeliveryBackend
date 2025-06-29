@@ -1,8 +1,6 @@
-import jwt from "jsonwebtoken";
-import User from "../schema/usermodel.js";
+const jwt = require("jsonwebtoken");
+const User = require("../schema/usermodel.js");
 
-
-// Generate JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
@@ -10,16 +8,14 @@ const generateToken = (id) => {
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { name, email, password, role, location } = req.body;
 
-    // Check for required fields
     if (!name || !email || !password || !role) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    // For Driver and customer, location is required
     if (
       (role === "Driver" || role === "customer") &&
       (!location || typeof location.lat !== "number" || typeof location.lng !== "number")
@@ -27,16 +23,13 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ error: "Location (lat, lng) is required for Drivers and Customers" });
     }
 
-    // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ error: "User already exists" });
     }
 
-    // Create new user
     const user = await User.create({ name, email, password, role, location });
 
-    // Return token & user data
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -53,11 +46,10 @@ export const registerUser = async (req, res) => {
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate fields
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
@@ -82,8 +74,8 @@ export const loginUser = async (req, res) => {
 
 // @desc    Get current logged-in user
 // @route   GET /api/auth/me
-// @access  Private (requires middleware)
-export const getMe = async (req, res) => {
+// @access  Private
+const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) {
@@ -94,4 +86,11 @@ export const getMe = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+// Export all functions (CommonJS)
+module.exports = {
+  registerUser,
+  loginUser,
+  getMe
 };

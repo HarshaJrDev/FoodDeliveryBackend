@@ -1,9 +1,7 @@
-// Middleware/authenticate.js
-import jwt from "jsonwebtoken";
-import User from "../schema/usermodel.js";
+const jwt = require("jsonwebtoken");
+const User = require("../schema/usermodel.js");
 
-
-export const authenticate = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(" ")[1]; // Bearer <token>
     if (!token) return res.status(401).json({ message: "No token provided" });
@@ -19,3 +17,5 @@ export const authenticate = async (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized", error: error.message });
   }
 };
+
+module.exports = { authenticate };

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
   {
@@ -27,7 +27,7 @@ const OrderSchema = new mongoose.Schema(
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
-      required: true, // Prevent null restaurantId
+      required: true,
     },
     items: [
       {
@@ -81,4 +81,4 @@ OrderSchema.index({ restaurantId: 1 });
 OrderSchema.index({ driverId: 1 });
 
 const Order = mongoose.model("Order", OrderSchema);
-export default Order;
+module.exports = Order;

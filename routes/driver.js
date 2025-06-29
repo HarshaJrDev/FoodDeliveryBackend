@@ -1,12 +1,12 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   getAllDrivers,
   getDriver,
   createDriver,
   updateDriver,
   deleteDriver,
   getDriverOrders
-} from "../controllers/drivercontroller.js";
+} = require("../controllers/drivercontroller.js");
 
 const router = express.Router();
 
@@ -17,4 +17,4 @@ router.put("/:id", updateDriver);
 router.delete("/:id", deleteDriver);
 router.get("/:id/orders", getDriverOrders);
 
-export default router;
+module.exports = router;

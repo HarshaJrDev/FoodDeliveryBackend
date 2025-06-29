@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -20,4 +20,4 @@ const UserSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const User = mongoose.model("Driver", UserSchema);
-export default User;
+module.exports = User;

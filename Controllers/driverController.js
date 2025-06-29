@@ -1,8 +1,7 @@
+const Driver = require("../schema/driver.js");
+const Order = require("../schema/order.js");
 
-import Driver from "../schema/driver.js";
-import Order from "../schema/order.js";
-
-export const getAllDrivers = async (req, res) => {
+const getAllDrivers = async (req, res) => {
   try {
     const drivers = await Driver.find();
     res.json(drivers);
@@ -11,7 +10,7 @@ export const getAllDrivers = async (req, res) => {
   }
 };
 
-export const getDriver = async (req, res) => {
+const getDriver = async (req, res) => {
   try {
     const driver = await Driver.findById(req.params.id);
     if (!driver) return res.status(404).json({ error: "Driver not found" });
@@ -21,7 +20,7 @@ export const getDriver = async (req, res) => {
   }
 };
 
-export const createDriver = async (req, res) => {
+const createDriver = async (req, res) => {
   try {
     const driver = new Driver(req.body);
     await driver.save();
@@ -31,7 +30,7 @@ export const createDriver = async (req, res) => {
   }
 };
 
-export const updateDriver = async (req, res) => {
+const updateDriver = async (req, res) => {
   try {
     const driver = await Driver.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!driver) return res.status(404).json({ error: "Driver not found" });
@@ -41,7 +40,7 @@ export const updateDriver = async (req, res) => {
   }
 };
 
-export const deleteDriver = async (req, res) => {
+const deleteDriver = async (req, res) => {
   try {
     const driver = await Driver.findByIdAndDelete(req.params.id);
     if (!driver) return res.status(404).json({ error: "Driver not found" });
@@ -51,11 +50,20 @@ export const deleteDriver = async (req, res) => {
   }
 };
 
-export const getDriverOrders = async (req, res) => {
+const getDriverOrders = async (req, res) => {
   try {
     const orders = await Order.find({ driverId: req.params.id });
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+module.exports = {
+  getAllDrivers,
+  getDriver,
+  createDriver,
+  updateDriver,
+  deleteDriver,
+  getDriverOrders,
 };

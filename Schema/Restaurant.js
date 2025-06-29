@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const RestaurantSchema = new mongoose.Schema(
   {
@@ -52,7 +52,6 @@ const RestaurantSchema = new mongoose.Schema(
   }
 );
 
-
 RestaurantSchema.virtual("orders", {
   ref: "Order",
   localField: "_id",
@@ -65,7 +64,6 @@ RestaurantSchema.virtual("foodItems", {
   foreignField: "restaurantId",
 });
 
-// Validate coordinates before saving
 RestaurantSchema.pre("save", function (next) {
   if (!this.address?.location?.coordinates?.length) {
     return next(new Error("Restaurant address.location.coordinates is required"));
@@ -77,4 +75,4 @@ RestaurantSchema.pre("save", function (next) {
 });
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
-export default Restaurant;
+module.exports = Restaurant;

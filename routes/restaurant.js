@@ -1,5 +1,5 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createRestaurant,
   deleteRestaurant,
   getAllRestaurants,
@@ -7,21 +7,18 @@ import {
   getRestaurantWithFoods,
   updateRestaurant,
   getMyRestaurant
-} from "../controllers/restaurantcontroller.js";
-import  {authenticate}  from "../middleware/authenticate.js";
+} = require("../controllers/restaurantcontroller.js");
 
+const { authenticate } = require("../middleware/authenticate.js");
 
 const router = express.Router();
 
-1
 router.get("/", getAllRestaurants);
 router.get("/:id", getRestaurant);
 router.get("/:id/full", getRestaurantWithFoods);
 router.post("/", authenticate, createRestaurant);
 router.put("/:id", authenticate, updateRestaurant);
 router.delete("/:id", authenticate, deleteRestaurant);
-
-
 router.get("/me/my-restaurant", authenticate, getMyRestaurant);
 
-export default router;
+module.exports = router;

@@ -1,8 +1,7 @@
-import FoodItem from "../schema/foodItem.js";
-import Order from "../schema/order.js";
-import Restaurant from "../schema/restaurant.js";
-import User from "../schema/usermodel.js";
-
+const FoodItem = require("../schema/foodItem.js");
+const Order = require("../schema/order.js");
+const Restaurant = require("../schema/restaurant.js");
+const User = require("../schema/usermodel.js");
 
 const getRouteData = async (from, to) => {
   return {
@@ -12,8 +11,7 @@ const getRouteData = async (from, to) => {
   };
 };
 
-
-export const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate("restaurantId")
@@ -28,8 +26,7 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-
-export const getOrder = async (req, res) => {
+const getOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate("restaurantId")
@@ -49,7 +46,7 @@ export const getOrder = async (req, res) => {
   }
 };
 
-export const createOrder = async (req, res) => {
+const createOrder = async (req, res) => {
   try {
     const {
       restaurantId,
@@ -60,7 +57,6 @@ export const createOrder = async (req, res) => {
       items
     } = req.body;
 
-    // Validate required fields
     if (
       !restaurantId ||
       !customerName ||
@@ -71,33 +67,26 @@ export const createOrder = async (req, res) => {
     ) {
       console.error("❌ Missing required fields", req.body);
       return res.status(400).json({
-        error:
-          "All required fields (restaurantId, customerName, customerPhone, deliveryAddress, deliveryAddressLocation, items) must be provided"
+        error: "All required fields must be provided"
       });
     }
 
-    // Validate restaurant
     const restaurant = await Restaurant.findById(restaurantId);
     if (!restaurant) {
-      console.error(`❌ Invalid restaurant ID: ${restaurantId}`);
-      return res.status(400).json({ error: `Invalid restaurant ID` });
+      return res.status(400).json({ error: "Invalid restaurant ID" });
     }
 
-    // Validate location
     if (
       !deliveryAddressLocation?.lat ||
       !deliveryAddressLocation?.lng
     ) {
-      console.error(`❌ Invalid delivery location`, deliveryAddressLocation);
       return res.status(400).json({
         error: "Invalid deliveryAddressLocation (lat and lng required)"
       });
     }
 
-    // Validate food items
     for (const item of items) {
       if (!item.foodId || !item.quantity || item.quantity < 1) {
-        console.error(`❌ Invalid item`, item);
         return res.status(400).json({
           error: "Each item must have valid foodId and quantity >= 1"
         });
@@ -105,7 +94,6 @@ export const createOrder = async (req, res) => {
 
       const foodItem = await FoodItem.findById(item.foodId);
       if (!foodItem) {
-        console.error(`❌ Food item not found: ${item.foodId}`);
         return res.status(400).json({ error: `Invalid foodId: ${item.foodId}` });
       }
     }
@@ -121,9 +109,7 @@ export const createOrder = async (req, res) => {
   }
 };
 
-
-// 📝 Update an order
-export const updateOrder = async (req, res) => {
+const updateOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
     console.log("✏️ Order updated:", order._id);
@@ -134,8 +120,7 @@ export const updateOrder = async (req, res) => {
   }
 };
 
-// ❌ Delete an order
-export const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
     console.log("🗑️ Order deleted:", req.params.id);
@@ -146,76 +131,54 @@ export const deleteOrder = async (req, res) => {
   }
 };
 
-// 🚗 Assign driver to order
-export const assignDriver = async (req, res) => {
+const assignDriver = async (req, res) => {
   try {
     const { driverId } = req.body;
     const orderId = req.params.id;
 
-    // Validate input
     if (!driverId || !orderId) {
-      console.error(`❌ Missing required fields: driverId=${driverId}, orderId=${orderId}`);
       return res.status(400).json({ error: "Order ID and Driver ID are required" });
     }
 
-    // Fetch order
     let order = await Order.findById(orderId);
     if (!order) {
-      console.error(`❌ Order not found with ID: ${orderId}`);
       return res.status(404).json({ error: "Order not found" });
     }
 
-    // Log raw order for debugging
-    console.log(`🔍 Raw order document: ${JSON.stringify(order, null, 2)}`);
-
-    // Check for restaurantId
     if (!order.restaurantId) {
-      console.error(`❌ Order ${orderId} has no restaurantId`);
       return res.status(400).json({ error: "Order is missing restaurantId" });
     }
 
-    // Validate restaurant exists
     const restaurant = await Restaurant.findById(order.restaurantId);
     if (!restaurant) {
-      console.error(`❌ Restaurant not found for restaurantId: ${order.restaurantId}`);
       return res.status(400).json({ error: `Restaurant not found for restaurantId: ${order.restaurantId}` });
     }
 
-    // Populate restaurantId (optional, since we already fetched it)
     order = await Order.findById(orderId).populate("restaurantId");
 
-    // Validate driver
     const driver = await User.findById(driverId);
     if (!driver || driver.role !== "Driver") {
-      console.error(`❌ Invalid driver ID: ${driverId}`);
       return res.status(400).json({ error: "Invalid driver" });
     }
 
     if (!driver.available) {
-      console.error(`❌ Driver not available: ${driverId}`);
       return res.status(400).json({ error: "Driver not available" });
     }
 
-    // Validate customer location
     const customerLocation = order.deliveryAddressLocation;
     if (!customerLocation?.lat || !customerLocation?.lng) {
-      console.error(`❌ Invalid customer location: ${JSON.stringify(customerLocation)}`);
       return res.status(400).json({ error: "Invalid or missing customer location" });
     }
 
-    // Validate restaurant location
     if (!restaurant.address?.location?.coordinates?.length) {
-      console.error(`❌ Restaurant missing coordinates: ${JSON.stringify(restaurant)}`);
       return res.status(400).json({ error: "Restaurant location data missing or invalid" });
     }
 
     const [lng, lat] = restaurant.address.location.coordinates;
     const restaurantLocation = { lat, lng };
 
-    // Calculate route using getRouteData
     const route = await getRouteData(restaurantLocation, customerLocation);
 
-    // Assign driver to order
     order.driverId = driverId;
     order.status = "Assigned";
     order.distance = route.distance;
@@ -223,7 +186,6 @@ export const assignDriver = async (req, res) => {
     order.routePolyline = JSON.stringify(route.polyline);
     await order.save();
 
-    // Mark driver unavailable
     driver.available = false;
     await driver.save();
 
@@ -235,9 +197,7 @@ export const assignDriver = async (req, res) => {
   }
 };
 
-
-// 🚦 Update order status
-export const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
   const { status } = req.body;
   const validStatuses = ['Placed', 'Preparing', 'Assigned', 'OutForDelivery', 'Delivered'];
 
@@ -260,4 +220,14 @@ export const updateOrderStatus = async (req, res) => {
     console.error("❌ Failed to update status:", err.message);
     res.status(500).json({ error: err.message });
   }
+};
+
+module.exports = {
+  getAllOrders,
+  getOrder,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+  assignDriver,
+  updateOrderStatus
 };

@@ -1,23 +1,20 @@
 
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import http from "http";
-import { Server as SocketIO } from "socket.io";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const http = require("http");
+const { Server: SocketIO } = require("socket.io");
 
+const authRoute = require("../Backend/routes/auth.js");
+const restaurantRoute = require("../Backend/routes/restaurant.js");
+const driverRoute = require("../Backend/routes/driver.js");
+const orderRoute = require("../Backend/routes/order.js");
+const restaurantfood = require("../Backend/routes/food.js");
 
+const chatSocket = require("../Backend/socket/chatSocket.js");
+const locationSocket = require("../Backend/socket/locationSocket.js");
+const mongodatabase = require("../Backend/utils/MongoDatabase.js");
 
-import authRoute from "./routes/auth.js";
-import restaurantRoute from "./routes/restaurant.js";
-import driverRoute from "./routes/driver.js";
-import orderRoute from "./routes/order.js";
-import restaurantfood from "./routes/food.js"
-
-
-
-import chatSocket from "./socket/chatSocket.js";
-import locationSocket from "./socket/locationSocket.js";
-import mongodatabase from "./utils/MongoDatabase.js";
 
 dotenv.config();
 

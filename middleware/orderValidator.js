@@ -1,11 +1,10 @@
+const { body, validationResult } = require("express-validator");
 
-import { body, validationResult } from "express-validator";
-
-export const validateCreateOrder = [
+const validateCreateOrder = [
   body("customerName").notEmpty().withMessage("Customer name is required"),
   body("customerPhone").notEmpty().withMessage("Customer phone is required"),
   body("deliveryAddress").notEmpty().withMessage("Delivery address is required"),
-  
+
   body("deliveryAddressLocation.lat")
     .isFloat({ min: -90, max: 90 }).withMessage("Valid latitude is required"),
   body("deliveryAddressLocation.lng")
@@ -27,10 +26,11 @@ export const validateCreateOrder = [
   }
 ];
 
-export const validateUpdateOrderStatus = [
+const validateUpdateOrderStatus = [
   body("status")
     .isIn(['Placed', 'Preparing', 'Assigned', 'OutForDelivery', 'Delivered'])
     .withMessage("Invalid order status"),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -39,3 +39,8 @@ export const validateUpdateOrderStatus = [
     next();
   }
 ];
+
+module.exports = {
+  validateCreateOrder,
+  validateUpdateOrderStatus
+};

@@ -1,4 +1,3 @@
-
 const driverSocket = (io) => {
   io.on("connection", (socket) => {
     console.log("📡 Driver connected:", socket.id);
@@ -14,4 +13,4 @@ const driverSocket = (io) => {
   });
 };
 
-export default driverSocket;
+module.exports = driverSocket;

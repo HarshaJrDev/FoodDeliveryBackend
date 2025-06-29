@@ -1,5 +1,5 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createOrder,
   updateOrderStatus,
   assignDriver,
@@ -7,10 +7,12 @@ import {
   getOrder,
   updateOrder,
   deleteOrder
-} from "../controllers/ordercontroller.js";
-import { validateCreateOrder, validateUpdateOrderStatus } from "../middleware/ordervalidator.js";
+} = require("../controllers/ordercontroller.js");
 
-
+const {
+  validateCreateOrder,
+  validateUpdateOrderStatus
+} = require("../middleware/ordervalidator.js");
 
 const router = express.Router();
 
@@ -22,4 +24,4 @@ router.delete("/:id", deleteOrder);
 router.put("/:id/assign", assignDriver);
 router.put("/:id/status", validateUpdateOrderStatus, updateOrderStatus);
 
-export default router;
+module.exports = router;

@@ -1,7 +1,7 @@
-import FoodItem from "../schema/foodItem.js";
+const FoodItem = require('../schema/foodItem');
 
-
-export const getAllFoodsByRestaurant = async (req, res) => {
+// Get all food items by restaurant
+const getAllFoodsByRestaurant = async (req, res) => {
   try {
     const foodItems = await FoodItem.find({ restaurantId: req.params.restaurantId });
     res.status(200).json({ success: true, data: foodItems });
@@ -12,7 +12,7 @@ export const getAllFoodsByRestaurant = async (req, res) => {
 };
 
 // Get a single food item by ID, only if it belongs to the restaurant
-export const getFoodItem = async (req, res) => {
+const getFoodItem = async (req, res) => {
   try {
     const food = await FoodItem.findById(req.params.foodId);
     if (!food) {
@@ -31,7 +31,7 @@ export const getFoodItem = async (req, res) => {
 };
 
 // Create a new food item for a restaurant
-export const createFoodItem = async (req, res) => {
+const createFoodItem = async (req, res) => {
   try {
     const requiredFields = ["name", "price", "category", "isVeg", "image"];
     for (const field of requiredFields) {
@@ -54,7 +54,7 @@ export const createFoodItem = async (req, res) => {
 };
 
 // Update a food item (only if it belongs to the restaurant)
-export const updateFoodItem = async (req, res) => {
+const updateFoodItem = async (req, res) => {
   try {
     const food = await FoodItem.findById(req.params.foodId);
     if (!food) {
@@ -75,7 +75,7 @@ export const updateFoodItem = async (req, res) => {
 };
 
 // Delete a food item (only if it belongs to the restaurant)
-export const deleteFoodItem = async (req, res) => {
+const deleteFoodItem = async (req, res) => {
   try {
     const food = await FoodItem.findById(req.params.foodId);
     if (!food) {
@@ -92,4 +92,13 @@ export const deleteFoodItem = async (req, res) => {
     console.error("Error deleting food item:", err);
     res.status(500).json({ success: false, error: "Failed to delete food item" });
   }
+};
+
+// Export functions
+module.exports = {
+  getAllFoodsByRestaurant,
+  getFoodItem,
+  createFoodItem,
+  updateFoodItem,
+  deleteFoodItem
 };

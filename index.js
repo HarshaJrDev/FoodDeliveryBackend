@@ -4,9 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
-import connectDB from "./utils/mongoDatabase.js";
 
 
+import { connectDB } from './utils/mongoDatabase.js';
 import authRoute from "./routes/auth.js";
 import restaurantRoute from "./routes/restaurant.js";
 import driverRoute from "./routes/driver.js";
@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 
 const startServer = async () => {
   try {
-    await connectDB();
+    await connectDB()
     const PORT = process.env.PORT || 3030;
     server.listen(PORT, () => {
       console.log(` Server running at http://localhost:${PORT}`);

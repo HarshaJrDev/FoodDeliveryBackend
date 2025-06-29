@@ -1,5 +1,5 @@
-const Driver = require("../schema/driver.js");
-const Order = require("../schema/order.js");
+const Driver = require("../schema/driver");
+const Order = require("../schema/order");
 
 const getAllDrivers = async (req, res) => {
   try {

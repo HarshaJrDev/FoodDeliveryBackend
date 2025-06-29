@@ -7,9 +7,9 @@ const {
   getRestaurantWithFoods,
   updateRestaurant,
   getMyRestaurant
-} = require("../controllers/restaurantcontroller.js");
+} = require("../controllers/restaurantcontroller");
 
-const { authenticate } = require("../middleware/authenticate.js");
+const { authenticate } = require("../middleware/authenticate");
 
 const router = express.Router();
 

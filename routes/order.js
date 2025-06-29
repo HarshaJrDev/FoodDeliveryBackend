@@ -7,12 +7,12 @@ const {
   getOrder,
   updateOrder,
   deleteOrder
-} = require("../controllers/ordercontroller.js");
+} = require("../controllers/ordercontroller");
 
 const {
   validateCreateOrder,
   validateUpdateOrderStatus
-} = require("../middleware/ordervalidator.js");
+} = require("../middleware/ordervalidator");
 
 const router = express.Router();
 

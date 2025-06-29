@@ -1,7 +1,7 @@
-const FoodItem = require("../schema/foodItem.js");
-const Order = require("../schema/order.js");
-const Restaurant = require("../schema/restaurant.js");
-const User = require("../schema/usermodel.js");
+const FoodItem = require("../schema/foodItem");
+const Order = require("../schema/order");
+const Restaurant = require("../schema/restaurant");
+const User = require("../schema/usermodel");
 
 const getRouteData = async (from, to) => {
   return {

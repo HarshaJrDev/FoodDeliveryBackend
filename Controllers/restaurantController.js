@@ -1,5 +1,5 @@
-const Restaurant = require("../schema/restaurant.js");
-const FoodItem = require("../schema/foodItem.js");
+const Restaurant = require("../schema/restaurant");
+const FoodItem = require("../schema/foodItem");
 
 const getAllRestaurants = async (req, res) => {
   try {

@@ -5,15 +5,15 @@ const dotenv = require("dotenv");
 const http = require("http");
 const { Server: SocketIO } = require("socket.io");
 
-const authRoute = require("./routes/auth.js");
-const restaurantRoute = require("./routes/restaurant.js");
-const driverRoute = require("./routes/driver.js");
-const orderRoute = require("./routes/order.js");
-const restaurantfood = require("./routes/food.js");
+const authRoute = require("./routes/auth");
+const restaurantRoute = require("./routes/restaurant");
+const driverRoute = require("./routes/driver");
+const orderRoute = require("./routes/order");
+const restaurantfood = require("./routes/food");
 
-const chatSocket = require("./socket/chatSocket.js");
-const locationSocket = require("./socket/locationSocket.js");
-const mongodatabase = require("./utils/MongoDatabase.js");
+const chatSocket = require("./socket/chatSocket");
+const locationSocket = require("./socket/locationSocket");
+const mongodatabase = require("./utils/MongoDatabase");
 
 
 dotenv.config();

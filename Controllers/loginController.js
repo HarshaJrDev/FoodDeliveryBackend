@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
-import UserModel from "../schema/usermodel.js";
-import generateToken from "../utils/generateToken.js";
-import sendLoginEmail from "./sendloginemail.js";
+import UserModel from "../schema/usermodel";
+import generateToken from "../utils/generateToken";
+import sendLoginEmail from "./sendloginemail";
 
 
 export const loginController = async (req, res) => {

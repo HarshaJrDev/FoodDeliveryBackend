@@ -7,7 +7,7 @@ import {
   getRestaurantWithFoods,
   updateRestaurant,
   getMyRestaurant
-} from "../Controllers/restaurantController.js";
+} from "../controllers/restaurantController.js";
 import  {authenticate}  from "../middleware/authenticate.js";
 
 

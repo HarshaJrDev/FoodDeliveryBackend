@@ -1,6 +1,6 @@
 
-import Driver from "../Schema/Driver.js";
-import Order from "../Schema/Order.js";
+import Driver from "../schema/Driver.js";
+import Order from "../schema/Order.js";
 
 export const getAllDrivers = async (req, res) => {
   try {

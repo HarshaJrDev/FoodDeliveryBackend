@@ -1,5 +1,5 @@
-import Restaurant from "../Schema/Restaurant.js";
-import FoodItem from "../Schema/FoodItem.js";
+import Restaurant from "../schema/Restaurant.js";
+import FoodItem from "../schema/FoodItem.js";
 
 // ✅ Get all restaurants with foodItems, orders, and owner details
 export const getAllRestaurants = async (req, res) => {

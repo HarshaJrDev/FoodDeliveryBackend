@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import UserModel from "../Schema/UserModel.js";
+import UserModel from "../schema/UserModel.js";
 import generateToken from "../utils/generateToken.js";
 import sendLoginEmail from "./sendLoginEmail.js";
 

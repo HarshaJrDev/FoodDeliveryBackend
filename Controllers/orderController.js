@@ -1,7 +1,7 @@
-import FoodItem from "../Schema/FoodItem.js";
-import Order from "../Schema/Order.js";
-import Restaurant from "../Schema/Restaurant.js";
-import User from "../Schema/UserModel.js";
+import FoodItem from "../schema/FoodItem.js";
+import Order from "../schema/Order.js";
+import Restaurant from "../schema/Restaurant.js";
+import User from "../schema/UserModel.js";
 
 
 const getRouteData = async (from, to) => {

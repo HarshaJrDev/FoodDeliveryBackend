@@ -1,4 +1,4 @@
-import FoodItem from "../Schema/FoodItem.js";
+import FoodItem from "../schema/FoodItem.js";
 
 
 export const getAllFoodsByRestaurant = async (req, res) => {

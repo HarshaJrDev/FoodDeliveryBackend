@@ -13,7 +13,7 @@ const restaurantfood = require("./src/routes/food");
 
 const chatSocket = require("./src/socket/chatSocket");
 const locationSocket = require("./src/socket/locationSocket");
-const mongodatabase = require("./src/utils/MongoDatabase");
+const mongodatabase = require("./src/utils/mongodatabase");
 
 
 dotenv.config();
